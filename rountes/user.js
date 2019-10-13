@@ -23,9 +23,11 @@ router.post('/register', (req, res) => {
     if (!name || !email || !password || !password2) {
         errors.push({ msg: 'Please, fill all fields' });
     }
+    // password check
     if (password !== password2) {
         errors.push({ msg: 'Password don\'t match' });
     }
+    // render errors if they exist
     if (errors.length > 0) {
         res.render('register', {
             errors,
@@ -39,6 +41,7 @@ router.post('/register', (req, res) => {
         // Validation passed
         User.findOne({ email: email })
             .then(user => {
+                // checking user existance
                 if (user) {
                     errors.push({
                         msg:
@@ -52,6 +55,7 @@ router.post('/register', (req, res) => {
                         password2
                     });
                 }
+                // adding user to db and encrypt his password
                 else {
                     const newUser = new User({
                         name,
@@ -76,6 +80,7 @@ router.post('/register', (req, res) => {
     }
 });
 
+// logic for user login
 router.post('/login', (req, res, next) => {
     passport.authenticate('local', {
         successRedirect: '/dashboard',
@@ -83,7 +88,7 @@ router.post('/login', (req, res, next) => {
         failureFlash: true
     })(req, res, next);
 });
-
+// logout user
 router.get('/logout', (req, res) => {
     req.logOut();
     req.flash('success_msg', 'You are logged out now');

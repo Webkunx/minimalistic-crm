@@ -19,6 +19,7 @@ const app = express();
 const urlencoded = express.urlencoded({ extended: false });
 const PORT = process.env.PORT || 3000;
 
+// Import passport strategy
 require('./config/passport')(passport);
 
 // ejs setup 
@@ -33,9 +34,14 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
 }));
+
+// mid for messages
 app.use(flash());
+
+// mids for passport
 app.use(passport.initialize());
 app.use(passport.session());
+
 // Global Vars
 app.use((req, res, next) => {
     res.locals.success_msg = req.flash('success_msg');
@@ -43,7 +49,6 @@ app.use((req, res, next) => {
     res.locals.error = req.flash('error');
     next();
 })
-
 
 // Routes
 app.use('/', require('./rountes/index'));
