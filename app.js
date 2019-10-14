@@ -7,22 +7,28 @@ const session = require('express-session');
 const passport = require('passport')
 
 // db config 
-const db = require('./config/keys').mongoURI;
+const db = require('./src/config/keys').mongoURI;
 
 // connection to db 
-mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(db, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    })
     .then(() => console.log('MongoDB connected...'))
     .catch(err => console.log(err))
 
 // variables setup 
 const app = express();
-const urlencoded = express.urlencoded({ extended: false });
+const urlencoded = express.urlencoded({
+    extended: false
+});
 const PORT = process.env.PORT || 3000;
 
 // Import passport strategy
-require('./config/passport')(passport);
+require('./src/config/passport')(passport);
 
 // ejs setup 
+app.set('views', __dirname + '/public/views');
 app.use(expressLayouts);
 app.set('view engine', 'ejs')
 
@@ -51,13 +57,10 @@ app.use((req, res, next) => {
 })
 
 // Routes
-app.use('/', require('./rountes/index'));
-app.use('/user', require('./rountes/user'));
+app.use('/', require('./src/routes/index'));
+app.use('/user', require('./src/routes/user'));
 
 // server start 
 app.listen(PORT, () => {
     console.log(`Server is running on ${PORT} port...`);
 });
-
-
-

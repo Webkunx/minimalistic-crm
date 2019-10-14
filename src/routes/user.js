@@ -16,16 +16,25 @@ router.get('/register', (req, res) => {
 
 // register handle
 router.post('/register', (req, res) => {
-    const { name, email, password, password2 } = req.body;
+    const {
+        name,
+        email,
+        password,
+        password2
+    } = req.body;
     let errors = [];
 
     // required fields
     if (!name || !email || !password || !password2) {
-        errors.push({ msg: 'Please, fill all fields' });
+        errors.push({
+            msg: 'Please, fill all fields'
+        });
     }
     // password check
     if (password !== password2) {
-        errors.push({ msg: 'Password don\'t match' });
+        errors.push({
+            msg: 'Password don\'t match'
+        });
     }
     // render errors if they exist
     if (errors.length > 0) {
@@ -36,16 +45,16 @@ router.post('/register', (req, res) => {
             password,
             password2
         })
-    }
-    else {
+    } else {
         // Validation passed
-        User.findOne({ email: email })
+        User.findOne({
+                email: email
+            })
             .then(user => {
                 // checking user existance
                 if (user) {
                     errors.push({
-                        msg:
-                            'User with this email already exist'
+                        msg: 'User with this email already exist'
                     });
                     res.render('register', {
                         errors,
