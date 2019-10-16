@@ -21,12 +21,13 @@
 #### Possible future changes
 ##### Major changes: 
 - **Ajax**
+- Replace **JS** with **TypeScript**
 - **React.js** as main Front-End module
 - **MySQL** handler and Front-End part for this
 - Change Auth strategy, now is used local-strategy, will be replaced with **JWT**
 - Auth with social networks: fb and google - create a factory method for login
 - Create controllers and move buisness logic inside
-- Separate all into different modules: Config, User, Auth, etc..
+- ~~Separate all into different modules: Config, User, Auth, etc..
 
 ##### Minor changes:
 - ~~Rename dir ./rountes to ./routes~~
