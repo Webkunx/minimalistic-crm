@@ -4,42 +4,45 @@ const expressLayouts = require('express-ejs-layouts');
 const mongoose = require('mongoose');
 const flash = require('connect-flash');
 const session = require('express-session');
-const passport = require('passport')
+const passport = require('passport');
 
-// db config 
+// db config
 const db = require('./src/config/keys').mongoURI;
 
-// connection to db 
-mongoose.connect(db, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    })
-    .then(() => console.log('MongoDB connected...'))
-    .catch(err => console.log(err))
+// connection to db
+mongoose
+  .connect(db, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
+  .then(() => console.log('MongoDB connected...'))
+  .catch(err => console.log(err));
 
-// variables setup 
+// variables setup
 const app = express();
 const urlencoded = express.urlencoded({
-    extended: false
+  extended: false
 });
 const PORT = process.env.PORT || 3000;
 
 // Import passport strategy
 require('./src/config/passport')(passport);
 
-// ejs setup 
+// ejs setup
 app.set('views', __dirname + '/public/views');
 app.use(expressLayouts);
-app.set('view engine', 'ejs')
+app.set('view engine', 'ejs');
 
-// mids 
+// mids
 app.use(logger('dev'));
 app.use(urlencoded);
-app.use(session({
+app.use(
+  session({
     secret: 'vanyaleyn2019',
     resave: false,
-    saveUninitialized: true,
-}));
+    saveUninitialized: true
+  })
+);
 
 // mid for messages
 app.use(flash());
@@ -50,17 +53,17 @@ app.use(passport.session());
 
 // Global Vars
 app.use((req, res, next) => {
-    res.locals.success_msg = req.flash('success_msg');
-    res.locals.error_msg = req.flash('error_msg');
-    res.locals.error = req.flash('error');
-    next();
-})
+  res.locals.success_msg = req.flash('success_msg');
+  res.locals.error_msg = req.flash('error_msg');
+  res.locals.error = req.flash('error');
+  next();
+});
 
 // Routes
 app.use('/', require('./src/routes/index'));
 app.use('/user', require('./src/routes/user'));
 
-// server start 
+// server start
 app.listen(PORT, () => {
-    console.log(`Server is running on ${PORT} port...`);
+  console.log(`Server is running on ${PORT} port...`);
 });
