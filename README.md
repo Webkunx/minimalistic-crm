@@ -13,7 +13,7 @@
 
 #### History
 - Added **Log in** and **Register**, based on **MongoDB**, **passport.js** and **express.js**. For Front-End part now is used **e.js**
-
+- Added **MySQL** with **Sequelize** node-module which is quite good ORM for Node.js
 
 ------------
 
