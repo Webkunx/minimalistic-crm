@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require('passport');
-
+const Sequelize = require('sequelize');
 // db config
 const db = require('./src/config/keys').mongoURI;
 
@@ -18,6 +18,20 @@ mongoose
   .then(() => console.log('MongoDB connected...'))
   .catch(err => console.log(err));
 
+const sequelize = new Sequelize('work1', 'root', 'Astra2000', {
+  dialect: 'mysql',
+  host: 'localhost'
+});
+
+// auth to mysql
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log('Connection has been established successfully.');
+  })
+  .catch(err => {
+    console.error('Unable to connect to the database:', err);
+  });
 // variables setup
 const app = express();
 const urlencoded = express.urlencoded({
@@ -62,6 +76,7 @@ app.use((req, res, next) => {
 // Routes
 app.use('/', require('./src/routes/index'));
 app.use('/user', require('./src/routes/user'));
+app.use('/products', require('./src/routes/products'));
 
 // server start
 app.listen(PORT, () => {
