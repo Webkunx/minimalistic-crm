@@ -3,9 +3,16 @@ const User = require('../models/User');
 const bcrypt = require('bcrypt');
 
 class UserController {
+  loginRender(req, res) {
+    res.render('login');
+  }
+  registerRender(req, res) {
+    res.render('register');
+  }
+
   login(req, res, next) {
     passport.authenticate('local', {
-      successRedirect: '/dashboard',
+      successRedirect: '/account',
       failureRedirect: '/user/login',
       failureFlash: true
     })(req, res, next);

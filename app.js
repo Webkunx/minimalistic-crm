@@ -75,8 +75,9 @@ app.use((req, res, next) => {
 
 // Routes
 app.use('/', require('./src/routes/index'));
-app.use('/user', require('./src/routes/user'));
+app.use('/user', require('./src/routes/auth'));
 app.use('/products', require('./src/routes/products'));
+app.use('/account', require('./src/routes/account'));
 
 // server start
 app.listen(PORT, () => {
