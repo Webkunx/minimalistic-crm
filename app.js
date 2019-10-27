@@ -6,21 +6,27 @@ const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require('passport');
 const Sequelize = require('sequelize');
-// db config
-const db = require('./src/config/keys').mongoURI;
+const {
+  port,
+  mysqlHost,
+  mysqlPassword,
+  mysqlUser,
+  mongoConfig,
+  passportSecret
+} = require('./src/config/keys');
 
 // connection to db
 mongoose
-  .connect(db, {
+  .connect(mongoConfig, {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
   .then(() => console.log('MongoDB connected...'))
   .catch(err => console.log(err));
 
-const sequelize = new Sequelize('work1', 'root', 'Astra2000', {
+const sequelize = new Sequelize('work1', mysqlUser, mysqlPassword, {
   dialect: 'mysql',
-  host: 'localhost'
+  host: mysqlHost
 });
 
 // auth to mysql
@@ -37,7 +43,7 @@ const app = express();
 const urlencoded = express.urlencoded({
   extended: false
 });
-const PORT = process.env.PORT || 3000;
+const PORT = port || 3000;
 
 // Import passport strategy
 require('./src/config/passport')(passport);
@@ -52,7 +58,7 @@ app.use(logger('dev'));
 app.use(urlencoded);
 app.use(
   session({
-    secret: 'vanyaleyn2019',
+    secret: passportSecret,
     resave: false,
     saveUninitialized: true
   })

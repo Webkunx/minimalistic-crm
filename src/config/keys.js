@@ -1,4 +1,12 @@
+const dotenv = require('dotenv');
+
+dotenv.config();
+
 module.exports = {
-  mongoURI:
-    'mongodb+srv://admin:admin@cluster0-lrxwn.mongodb.net/test?retryWrites=true&w=majority'
+  port: process.env.PORT,
+  mongoConfig: process.env.MONGO_URI,
+  mysqlUser: process.env.MYSQL_USER,
+  mysqlPassword: process.env.MYSQL_PASSWORD,
+  mysqlHost: process.env.MYSQL_HOST,
+  passportSecret: process.env.SECRET
 };
