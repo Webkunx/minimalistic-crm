@@ -6,14 +6,7 @@ const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require('passport');
 const Sequelize = require('sequelize');
-const {
-  port,
-  mysqlHost,
-  mysqlPassword,
-  mysqlUser,
-  mongoConfig,
-  passportSecret
-} = require('./src/config/keys');
+const { port, mongoConfig, passportSecret } = require('./src/config/keys');
 
 // connection to db
 mongoose
@@ -24,10 +17,7 @@ mongoose
   .then(() => console.log('MongoDB connected...'))
   .catch(err => console.log(err));
 
-const sequelize = new Sequelize('work1', mysqlUser, mysqlPassword, {
-  dialect: 'mysql',
-  host: mysqlHost
-});
+const sequelize = require('./src/config/mysql');
 
 // auth to mysql
 sequelize
