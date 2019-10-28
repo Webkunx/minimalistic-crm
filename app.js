@@ -28,6 +28,10 @@ sequelize
   .catch(err => {
     console.error('Unable to connect to the database:', err);
   });
+sequelize
+  .sync()
+  .then(() => console.log('Mysql Sync successfully.'))
+  .catch(err => console.log(err));
 // variables setup
 const app = express();
 const urlencoded = express.urlencoded({
