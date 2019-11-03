@@ -7,18 +7,20 @@ const ProductController = require('../controllers/ProductController');
 // router.use(ensureAuthenticated);
 
 // get all  products
-router.get('/', ProductController.getAll);
+router.get('/', ProductController.readAll);
 
 // get by id
-router.get('/:id', ProductController.getById);
+router.get('/:id', ProductController.readById);
 
 // create product
-router.post('/', ProductController.post);
+router.post('/', ProductController.createProduct);
 
 // update product
-router.put('/:id', ProductController.put);
+router.put('/:id', ProductController.updateProduct);
 
 // destroy product
-router.delete('/:id', ProductController.delete);
+router.delete('/:id', ProductController.destroyProduct);
+
+// router.get('/sayhi', ProductController.sayHi());
 
 module.exports = router;
