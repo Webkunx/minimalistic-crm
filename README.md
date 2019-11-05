@@ -15,6 +15,7 @@
 - Added **Log in** and **Register**, based on **MongoDB**, **passport.js** and **express.js**. For Front-End part now is used **e.js**
 - Added **MySQL** with **Sequelize** node-module which is quite good ORM for Node.js
 
+
 ------------
 
 
@@ -28,6 +29,7 @@
 - Auth with social networks: fb and google - create a factory method for login
 - ~~Create controllers and move buisness logic inside~~
 - ~~Separate all into different modules: Config, User, Auth, etc..~~
+- Add Email Validation for auth
 
 ##### Minor changes:
 - ~~Rename dir ./rountes to ./routes~~
