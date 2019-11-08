@@ -1,6 +1,7 @@
 const passport = require('passport');
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 class UserController {
   loginRender(req, res) {
@@ -11,18 +12,42 @@ class UserController {
   }
 
   login(req, res, next) {
-    passport.authenticate('local', {
-      successRedirect: '/account',
-      failureRedirect: '/user/login',
-      failureFlash: true
-    })(req, res, next);
-  }
+    passport.authenticate(
+      'local',
+      {
+        session: false,
+        // successRedirect: '/account',
+        // failureRedirect: '/user/login',
+        failureFlash: true
+      },
 
-  logout(req, res) {
-    req.logOut();
-    req.flash('success_msg', 'You are logged out now');
-    res.redirect('/user/login');
+      (err, user, info) => {
+        if (err) {
+          return res.status(400).json({
+            message: info ? info.message : 'Login failed',
+            user: user
+          });
+        }
+
+        req.login(user, { session: false }, err => {
+          if (!user || err) {
+            return res.send({ message: 'Error occured' });
+          }
+          console.log(user);
+          const token = jwt.sign(user.toJSON(), process.env.JSON_SECRET);
+          return res.redirect('/');
+        });
+      }
+    )(req, res, next);
   }
+  logout(req, res) {
+    res.json({ error: 'nor refactored this function yet' });
+  }
+  // logout(req, res) {
+  //   req.logOut();
+  //   req.flash('success_msg', 'You are logged out now');
+  //   res.redirect('/user/login');
+  // }
 
   async register(req, res) {
     const { name, email, password, password2 } = req.body;
